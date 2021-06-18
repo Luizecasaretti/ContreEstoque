@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org.1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+body  {background-color: hsla(60, 10%, 80%, .87);}
+table {background-color: hsla(400,100%,100%, .92);}
+table {background-color: hsla(400,100%,100%, .92);}
+h4    {color: #FF6666;}
+</style>
+<meta charset="ISO-8859-1" />
+<title>Login</title>
+</head>
+<body>
+	<div align="center">
+		<form  th:action="validarLogin" method="post">
+    	<table border="1">
+    	<h2>Login:</h2>
+        <tr>
+        	<td><label>Nome:</label></td>
+            <td><input name="nome" placeholder="nome"/></td>
+        </tr>
+        <tr>
+            <td><label>Senha:</label></td>
+            <td><input name="senha" placeholder="senha"/></td>
+        </tr>         
+    	</table>
+    	<h4><tr><td th:text="${erroLogin}"></td></tr></h4>
+    	<tr>
+            <td><input type="submit" value="Salvar" /></td>
+        </tr>
+		</form>
+		<h2><tr><td th:text="${resultado}"></td></tr></h2>
+	</div>
+</body>
+</html>

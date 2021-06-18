@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org.1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+body  {background-color: hsla(60, 10%, 80%, .87);}
+table {background-color: hsla(400,100%,100%, .92);}
+table {background-color: hsla(400,100%,100%, .92);}
+h4    {color: #FF6666;}
+</style>
+<meta charset="ISO-8859-1" />
+<title>Cliente</title>
+</head>
+<body>
+	<h2>Cliente:</h2>
+	
+	<form  th:action="produtoExcluir" method="post">
+    	<table border="1">
+    	<h2>Comprar produtos:</h2>
+        <tr>
+        	<td><label>Codigo:</label></td>
+            <td><input name="codigo" placeholder="codigo"/></td>
+        </tr>
+        <tr>
+            <td><label>Nome:</label></td>
+            <td><input name="nome" placeholder="nome"/></td>
+        </tr>       
+    	</table>
+    	<tr>
+            <td><input type="submit" value="Salvar" /></td>
+        </tr>
+	</form>
+		
+	<form  th:action="consultarProduto" method="post">
+    	<table border="1">
+	
+		<h2>Consulta Produtos:</h2>       
+    	</table>
+    	<tr>
+            <td><input type="submit" value="Consultar" /></td>
+        </tr>
+		</form>
+	
+	<h2><tr><td th:text="${resultadoTabela}"></td></tr></h2>
+</body>
+</html>
