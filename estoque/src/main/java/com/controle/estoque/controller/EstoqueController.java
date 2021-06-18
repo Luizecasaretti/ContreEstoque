@@ -1,6 +1,6 @@
 package com.controle.estoque.controller;
 
-import java.awt.List;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.controle.estoque.exception.LoginInvalidoException;
 import com.controle.estoque.models.LoginModel;
 import com.controle.estoque.models.ProdutoModel;
 import com.controle.estoque.services.LoginService;
 import com.controle.estoque.services.ProdutoService;
+
 
 
 
@@ -24,6 +27,8 @@ public class EstoqueController {
 	
 	@Autowired
 	ProdutoService produtoService;
+
+	private ResultSet contagem;
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/login" )
@@ -32,14 +37,16 @@ public class EstoqueController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/validarLogin" )
-	public String inserirLogin(String nome, int senha) throws Exception {	
+	public String inserirLogin(@RequestParam(required = true) String nome, 
+			                   @RequestParam(required = true) int senha, 
+			                   Model model) throws Exception {	
 	
 			LoginModel login  = new LoginModel(nome, senha);
 			login.setNome(nome);
 			login.setSenha(senha);
-			
+					
 			return loginService.definirAutenticacao(login.getNome(), login.getSenha());	
-	
+
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/gerente" )
@@ -59,8 +66,25 @@ public class EstoqueController {
 		
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/produtoExcluir" )
-	public String excluirProduto(int codigo, String nome) throws Exception{	
+	@RequestMapping(method = RequestMethod.POST, value = "/gerenteAlterar" )
+	public String alterarProduto(int codigo, String nome, String validade, 
+								 String marca, String preco, String descricao) throws Exception{	
+		ProdutoModel produtoAlterado = new ProdutoModel();
+		produtoAlterado.setCodigo(codigo);
+		produtoAlterado.setNome(nome);
+		produtoAlterado.setValidade(validade);
+		produtoAlterado.setMarca(marca);
+		produtoAlterado.setPreco(preco);
+		produtoAlterado.setDescricao(descricao);	
+		
+		produtoService.alteracaoProduto(produtoAlterado);
+		
+		return "parametros/gerente";
+		
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/gerenteExcluir" )
+	public String gerenteExcluirProduto(int codigo, String nome) throws Exception{	
 		ProdutoModel produtoExcluido = new ProdutoModel();
 		produtoExcluido.setCodigo(codigo);
 		produtoExcluido.setNome(nome);
@@ -69,6 +93,23 @@ public class EstoqueController {
 		
 		return "parametros/gerente";
 		
+	} 
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/clienteExcluir" )
+	public String clienteExcluirProduto(int codigo, String nome, Model model) throws Exception{	
+		ProdutoModel produtoExcluido = new ProdutoModel();
+		produtoExcluido.setCodigo(codigo);
+		produtoExcluido.setNome(nome);
+		
+		try {
+			produtoService.exclusaoProduto(produtoExcluido);
+		}
+		catch(Exception e) {
+			throw new LoginInvalidoException();
+			//model.addAttribute("erroDeleteProduto", e.getMessage());
+		}
+		return "parametros/cliente";
+		
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/consultarProduto" )
@@ -76,9 +117,19 @@ public class EstoqueController {
 			
 		ArrayList<ProdutoModel> resultadoTabela = new ArrayList<ProdutoModel>();
 		resultadoTabela = produtoService.consultaProduto();
-		model.addAttribute("resultadoTabela");
+		model.addAttribute("resultadoTabela", resultadoTabela);
 		
 		return "parametros/gerente";
+		
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/contarProdutos" )
+	public String contarTotalProduto(Model model) throws Exception{	
+			
+		contagem = produtoService.contaProduto();
+		model.addAttribute("contagem", contagem);
+		
+		return "parametros/gerente"; 
 		
 	}
 

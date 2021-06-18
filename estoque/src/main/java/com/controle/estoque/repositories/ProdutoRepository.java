@@ -39,6 +39,62 @@ public class ProdutoRepository {
 		
 	}
 	
+	public void updateProduto(ProdutoModel produtoAlterado) {
+		
+//		String sql = "UPDATE PRODUTOS SET NOME = ?, DATA_VALIDADE = ?, MARCA = ?, "
+//				   + "PRECO = ?, DESCRICAO = ? WHERE CODIGO = ?";
+	
+		try {
+			
+			Connection conn = null;
+			PreparedStatement pstm = null;
+			
+			conn = ConnectionConfig.createConnectionToMariaDB();
+				
+			
+			if (!produtoAlterado.getNome().isEmpty()) {	
+				String sql = "UPDATE PRODUTOS SET NOME = ? WHERE CODIGO = ?";
+				pstm = (PreparedStatement) conn.prepareStatement(sql);
+				pstm.setString(1, produtoAlterado.getNome());
+				pstm.setInt(2, produtoAlterado.getCodigo());
+				pstm.execute();
+			}
+					
+			if (!produtoAlterado.getValidade().isEmpty())	{
+				String sql = "UPDATE PRODUTOS SET DATA_VALIDADE = ? WHERE CODIGO = ?";
+				pstm = (PreparedStatement) conn.prepareStatement(sql);
+				pstm.setString(1, produtoAlterado.getValidade());
+				pstm.setInt(2, produtoAlterado.getCodigo());
+				pstm.execute();
+			}
+			if (!produtoAlterado.getMarca().isEmpty())	{
+				String sql = "UPDATE PRODUTOS SET MARCA = ? WHERE CODIGO = ?";
+				pstm = (PreparedStatement) conn.prepareStatement(sql);
+				pstm.setString(1, produtoAlterado.getMarca());
+				pstm.setInt(2, produtoAlterado.getCodigo());
+				pstm.execute();
+			}
+			if (!produtoAlterado.getPreco().isEmpty())	{
+				String sql = "UPDATE PRODUTOS SET PRECO = ? WHERE CODIGO = ?";
+				pstm = (PreparedStatement) conn.prepareStatement(sql);
+				pstm.setString(1, produtoAlterado.getPreco());
+				pstm.setInt(2, produtoAlterado.getCodigo());
+				pstm.execute();
+			}
+			if (!produtoAlterado.getDescricao().isEmpty())	{
+				String sql = "UPDATE PRODUTOS SET DESCRICAO = ? WHERE CODIGO = ?";
+				pstm = (PreparedStatement) conn.prepareStatement(sql);
+				pstm.setString(1, produtoAlterado.getDescricao());
+				pstm.setInt(2, produtoAlterado.getCodigo());
+				pstm.execute();
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void deleteProduto(ProdutoModel produtoExcluido) {
 		
 		String sql = "DELETE FROM PRODUTOS WHERE CODIGO = ? AND NOME = ?";
@@ -61,6 +117,29 @@ public class ProdutoRepository {
 		
 	}
 	
+	public ResultSet countProduto() {
+		
+		String sql = "SELECT COUNT(*) FROM produtos";
+		
+		ResultSet rset = null;
+		 
+		try {
+			Connection conn = null;
+			PreparedStatement pstm = null;
+		
+			conn = ConnectionConfig.createConnectionToMariaDB();
+			
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+						
+			rset = pstm.executeQuery();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(rset);
+		return rset;
+		
+	}
 	
 
 	public ArrayList<ProdutoModel> selectProduto() {
@@ -105,5 +184,7 @@ public class ProdutoRepository {
 		//System.out.println(rset);
 		return tabelaProdutos;
 	}
+	
+	
 }
 

@@ -1,17 +1,18 @@
 package com.controle.estoque.services;
 
 import org.springframework.stereotype.Service;
+import com.controle.estoque.exception.LoginInvalidoException;
 
 @Service
 public class LoginService {
 	public String definirAutenticacao(String nome, int senha) throws Exception {
 
-		if (senha == 1234) {
-			//boolean gerente = true;
+		if (!nome.isEmpty() && senha == 1234) {
 			return "parametros/gerente";
-		} else if (nome != null && senha > 0) {
+		} else if (!nome.isEmpty() && senha > 0) {
 			return "parametros/cliente";
-		} else
-			return "parametros/loginInvalido";
+		} else {
+			throw new LoginInvalidoException();
 		}
+	}
 }

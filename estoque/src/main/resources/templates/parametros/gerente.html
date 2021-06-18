@@ -2,8 +2,7 @@
 <html xmlns="http://www.w3.org.1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 <style>
-body  {background-color: hsla(60, 10%, 80%, .87);}
-table {background-color: hsla(400,100%,100%, .92);}
+body  {background-color:hsla(120,10%,1%,0.9);}
 table {background-color: hsla(400,100%,100%, .92);}
 h4    {color: #FF6666;}
 </style>
@@ -12,14 +11,47 @@ h4    {color: #FF6666;}
 </head>
 <body>
 
-	<h2>Gerente:</h2>
+	<h2><font color="white">Gerente:</font></h2>
 	
 		<form  th:action="gerente" method="post">
     	<table border="1">
-    	<h2>Inserir produtos novos:</h2>
+    	<h2><font color="white">Inserir Produtos Novos:</font></h2>
         <tr>
         	<td><label>Codigo:</label></td>
-            <td><input name="codigo" placeholder="codigo"/></td>
+            <td><input name="codigo" placeholder="codigo"  th:required="required"/></td>
+        </tr>
+        <tr>
+            <td><label>Nome:</label></td>
+            <td><input name="nome" placeholder="nome"  th:required="required"/></td>
+        </tr>  
+        <tr>
+            <td><label>Data de Validade:</label></td>
+            <td><input name="validade" placeholder="YYYY-MM-DD"  th:required="required"/></td>
+        </tr>
+        <tr>
+            <td><label>Marca:</label></td>
+            <td><input name="marca" placeholder="marca"  th:required="required"/></td>
+        </tr>   
+        <tr>
+            <td><label>Preco:</label></td>
+            <td><input name="preco" placeholder="preco"  th:required="required"/></td>
+        </tr>
+        <tr>
+            <td><label>Descricao:</label></td>
+            <td><input name="descricao" placeholder="descricao"  th:required="required"/></td>
+        </tr>       
+    	</table>
+    	<tr>
+            <td><input type="submit" value="Inserir" /></td>
+        </tr>
+		</form>
+		
+		<form  th:action="gerenteAlterar" method="post">
+    	<table border="1">
+    	<h2><font color="white">Alterar Produtos:</font></h2>
+        <tr>
+        	<td><label>Codigo:</label></td>
+            <td><input name="codigo" placeholder="codigo"  th:required="required"/></td>
         </tr>
         <tr>
             <td><label>Nome:</label></td>
@@ -43,32 +75,44 @@ h4    {color: #FF6666;}
         </tr>       
     	</table>
     	<tr>
-            <td><input type="submit" value="Salvar" /></td>
+            <td><input type="submit" value="Alterar"/></td>
         </tr>
 		</form>
-		<form  th:action="produtoExcluir" method="post">
+		
+		
+		<form  th:action="gerenteExcluir" method="post">
     	<table border="1">
-    	<h2>Excluir produtos:</h2>
+    	<h2><font color="white">Excluir Produtos:</font></h2>
         <tr>
         	<td><label>Codigo:</label></td>
-            <td><input name="codigo" placeholder="codigo"/></td>
+            <td><input name="codigo" placeholder="codigo"  th:required="required"/></td>
         </tr>
         <tr>
             <td><label>Nome:</label></td>
-            <td><input name="nome" placeholder="nome"/></td>
+            <td><input name="nome" placeholder="nome"  th:required="required"/></td>
         </tr>       
     	</table>
     	<tr>
-            <td><input type="submit" value="Salvar" /></td>
+            <td><input type="submit" value="Excluir" /></td>
         </tr>
 		</form>
 		
 		<form  th:action="consultarProduto" method="post">
     	<table border="1">
-    	<h2>Consulta Produtos:</h2>       
+    	<h2><font color="white">Consultar Produto:</font></h2>       
     	</table>
     	<tr>
             <td><input type="submit" value="Consultar" /></td>
+        </tr>
+		</form>
+		
+		<form  th:action="contarProdutos" method="post">
+    	<table border="1">
+    	<h2><font color="white">Contar Total de Produtos:</font></h2>  
+    	<h2><tr><td th:text="${contagem}"></td></tr></h2>     
+    	</table>
+    	<tr>
+            <td><input type="submit" value="Contar" /></td>
         </tr>
 		</form>
 	

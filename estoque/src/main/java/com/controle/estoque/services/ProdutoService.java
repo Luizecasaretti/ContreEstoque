@@ -1,5 +1,6 @@
 package com.controle.estoque.services;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,19 @@ public class ProdutoService {
 		
 	}
 	
+	public String alteracaoProduto(ProdutoModel produtoAlterado) {
+				
+		produtoRepository.updateProduto(produtoAlterado);
+		
+		return "parametros/gerente";
+		
+	}
+	
 	public String exclusaoProduto(ProdutoModel produtoExcluido) {
 		
 		produtoRepository.deleteProduto(produtoExcluido);
 		
-		return "parametros/gerente";
+		return "parametros/gerente"; 
 		
 	}
 	
@@ -36,5 +45,9 @@ public class ProdutoService {
 		
 		return produtoRepository.selectProduto();
  		
+	}
+	
+	public ResultSet contaProduto() {
+		return produtoRepository.countProduto();
 	}
 }
