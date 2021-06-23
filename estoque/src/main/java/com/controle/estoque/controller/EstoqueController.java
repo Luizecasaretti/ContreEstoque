@@ -18,7 +18,6 @@ import com.controle.estoque.services.ProdutoService;
 
 
 
-
 @Controller
 public class EstoqueController {
 	
@@ -116,8 +115,13 @@ public class EstoqueController {
 	public String consultarProduto(Model model) throws Exception{	
 			
 		ArrayList<ProdutoModel> resultadoTabela = new ArrayList<ProdutoModel>();
+		//String resultadoTabela = "";
 		resultadoTabela = produtoService.consultaProduto();
-		model.addAttribute("resultadoTabela", resultadoTabela);
+		//resultadoTabela = produtoService.consultaProduto();
+		model.addAttribute("consulta", resultadoTabela);
+		
+		//model.addAttribute("produtos", produtoService.consultaProduto());
+	    
 		
 		return "parametros/gerente";
 		

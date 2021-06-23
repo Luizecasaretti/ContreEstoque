@@ -3,7 +3,7 @@ package com.controle.estoque.services;
 import org.springframework.stereotype.Service;
 import com.controle.estoque.exception.LoginInvalidoException;
 
-@Service
+@Service 
 public class LoginService {
 	public String definirAutenticacao(String nome, int senha) throws Exception {
 

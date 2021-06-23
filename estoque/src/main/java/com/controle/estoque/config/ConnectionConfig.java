@@ -11,7 +11,7 @@ public class ConnectionConfig {
 		String url = "jdbc:mariadb://localhost:3306/db_controle_estoque";
 		String user = "root";
 		String pwd = "123456";
-
+ 
 		try {
 
 			connection = DriverManager.getConnection(url, user, pwd);
