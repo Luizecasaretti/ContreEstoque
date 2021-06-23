@@ -1,8 +1,7 @@
 package com.controle.estoque.services;
 
 import java.sql.ResultSet;
-//import java.util.ArrayList;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,36 +15,24 @@ public class ProdutoService {
 	
 	@Autowired
 	ProdutoRepository produtoRepository; 
-	
 
 	public String verificacaoProduto(ProdutoModel produtoNovo) {
-		
-		produtoRepository.insertProduto(produtoNovo);
-		
+		produtoRepository.insertProduto(produtoNovo);	
 		return "parametros/gerente";
-		
 	}
 	
 	public String alteracaoProduto(ProdutoModel produtoAlterado) {
-				
 		produtoRepository.updateProduto(produtoAlterado);
-		
-		return "parametros/gerente";
-		
+		return "parametros/gerente";		
 	}
 	
 	public String exclusaoProduto(ProdutoModel produtoExcluido) {
-		
-		produtoRepository.deleteProduto(produtoExcluido);
-		
-		return "parametros/gerente"; 
-		
+		produtoRepository.deleteProduto(produtoExcluido);	
+		return "parametros/gerente"; 	
 	}
 	
-	public ArrayList<ProdutoModel> consultaProduto() {
-		
+	public List<ProdutoModel> consultaProduto() {	
 		return produtoRepository.selectProduto();
- 		
 	}
 	
 	public ResultSet contaProduto() {

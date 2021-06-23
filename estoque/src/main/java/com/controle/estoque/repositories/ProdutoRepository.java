@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +21,6 @@ public class ProdutoRepository {
 		try {
 			Connection conn = null;
 			PreparedStatement pstm = null;
-
 			conn = ConnectionConfig.createConnectionToMariaDB();
 
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
@@ -39,15 +39,10 @@ public class ProdutoRepository {
 	}
 
 	public void updateProduto(ProdutoModel produtoAlterado) {
-
-//		String sql = "UPDATE PRODUTOS SET NOME = ?, DATA_VALIDADE = ?, MARCA = ?, "
-//				   + "PRECO = ?, DESCRICAO = ? WHERE CODIGO = ?";
-
 		try {
 
 			Connection conn = null;
 			PreparedStatement pstm = null;
-
 			conn = ConnectionConfig.createConnectionToMariaDB();
 
 			if (!produtoAlterado.getNome().isEmpty()) {
@@ -100,7 +95,6 @@ public class ProdutoRepository {
 		try {
 			Connection conn = null;
 			PreparedStatement pstm = null;
-
 			conn = ConnectionConfig.createConnectionToMariaDB();
 
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
@@ -126,25 +120,36 @@ public class ProdutoRepository {
 			PreparedStatement pstm = null;
 
 			conn = ConnectionConfig.createConnectionToMariaDB();
-
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-
 			rset = pstm.executeQuery();
-
+			
+			int size= 0;  
+			if (rset!= null)   
+			{  
+				rset.beforeFirst();  
+				rset.last();  
+				size = rset.getRow();
+				System.out.println(size);
+			}
+		
+	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(rset);
+		
 		return rset;
 
 	}
+	
+	
 
-	public ArrayList<ProdutoModel> selectProduto() {
+	public List<ProdutoModel> selectProduto() {
 
 		String sql = "SELECT * FROM PRODUTOS";
-
-		ArrayList<ProdutoModel> tabelaProdutos = new ArrayList<ProdutoModel>();
+		
+		List<ProdutoModel> tabelaProdutos = new ArrayList<>();		
 		ResultSet rset = null;
+		
 		try {
 			Connection conn = null;
 			PreparedStatement pstm = null;
@@ -154,26 +159,27 @@ public class ProdutoRepository {
 
 			while (rset.next()) {
 				
-				ProdutoModel produto = new ProdutoModel();		
+               	ProdutoModel produto = new ProdutoModel();			
 				produto.setCodigo(rset.getInt("CODIGO"));
 				produto.setNome(rset.getString("NOME"));
 				produto.setValidade(rset.getString("DATA_VALIDADE"));
 				produto.setMarca(rset.getString("MARCA"));
 				produto.setPreco(rset.getString("PRECO"));
 				produto.setDescricao(rset.getString("DESCRICAO"));
-				produto.toString();
-				System.out.println(produto.toString());
+				
 				tabelaProdutos.add(produto);
+				
+				
 			}
+				
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	System.out.println(tabelaProdutos);
 	return tabelaProdutos;
-}
-	public String  toString() {
-        return getClass().getName() + "@" + Integer.toHexString(hashCode());
-    }
-
+	}
+	
+	
 }

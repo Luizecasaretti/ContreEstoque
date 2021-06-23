@@ -13,9 +13,7 @@ public class ConnectionConfig {
 		String pwd = "123456";
  
 		try {
-
 			connection = DriverManager.getConnection(url, user, pwd);
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -29,11 +29,16 @@ h4    {color: #FF6666;}
         </tr>
 	</form>
 		
-	<form  th:action="consultarProduto" method="post">
+	<form  th:action="consultarProdutoCliente" method="post">
     	<table border="1">
 	
 		<h2><font color="white">Consultar Produto:</font></h2>       
     	</table>
+    	<h2>
+				<tr>
+					<td color="white" th:text="${consulta}"></td>
+				</tr>
+			</h2>
     	<tr>
             <td><input type="submit" value="Consultar" /></td>
         </tr>

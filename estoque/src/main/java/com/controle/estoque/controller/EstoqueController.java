@@ -2,6 +2,7 @@ package com.controle.estoque.controller;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,29 +30,29 @@ public class EstoqueController {
 
 	private ResultSet contagem;
 	
-	
+	//LOGIN
 	@RequestMapping(method = RequestMethod.GET, value = "/login" )
 	public String inicio() throws Exception{
 		return "parametros/login";
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/validarLogin" )
-	public String inserirLogin(@RequestParam(required = true) String nome, 
-			                   @RequestParam(required = true) int senha, 
-			                   Model model) throws Exception {	
+	public String inserirLogin(@RequestParam(required = true) String nome, @RequestParam(required = true) int senha, Model model) throws Exception {	
 	
 			LoginModel login  = new LoginModel(nome, senha);
+			
 			login.setNome(nome);
-			login.setSenha(senha);
-					
+			login.setSenha(senha);	
+			
 			return loginService.definirAutenticacao(login.getNome(), login.getSenha());	
 
 	}
-	
+	//GERENTE
 	@RequestMapping(method = RequestMethod.POST, value = "/gerente" )
-	public String inserirProduto(int codigo, String nome, String validade, 
-								 String marca, String preco, String descricao) throws Exception{	
+	public String inserirProduto(int codigo, String nome, String validade, String marca, String preco, String descricao) throws Exception{
+		
 		ProdutoModel produtoNovo = new ProdutoModel();
+		
 		produtoNovo.setCodigo(codigo);
 		produtoNovo.setNome(nome);
 		produtoNovo.setValidade(validade);
@@ -75,7 +76,6 @@ public class EstoqueController {
 		produtoAlterado.setMarca(marca);
 		produtoAlterado.setPreco(preco);
 		produtoAlterado.setDescricao(descricao);	
-		
 		produtoService.alteracaoProduto(produtoAlterado);
 		
 		return "parametros/gerente";
@@ -84,7 +84,9 @@ public class EstoqueController {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/gerenteExcluir" )
 	public String gerenteExcluirProduto(int codigo, String nome) throws Exception{	
+		
 		ProdutoModel produtoExcluido = new ProdutoModel();
+		
 		produtoExcluido.setCodigo(codigo);
 		produtoExcluido.setNome(nome);
 		
@@ -94,35 +96,18 @@ public class EstoqueController {
 		
 	} 
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/clienteExcluir" )
-	public String clienteExcluirProduto(int codigo, String nome, Model model) throws Exception{	
-		ProdutoModel produtoExcluido = new ProdutoModel();
-		produtoExcluido.setCodigo(codigo);
-		produtoExcluido.setNome(nome);
-		
-		try {
-			produtoService.exclusaoProduto(produtoExcluido);
-		}
-		catch(Exception e) {
-			throw new LoginInvalidoException();
-			//model.addAttribute("erroDeleteProduto", e.getMessage());
-		}
-		return "parametros/cliente";
-		
-	}
-	
 	@RequestMapping(method = RequestMethod.POST, value = "/consultarProduto" )
 	public String consultarProduto(Model model) throws Exception{	
 			
-		ArrayList<ProdutoModel> resultadoTabela = new ArrayList<ProdutoModel>();
+		//ArrayList<ProdutoModel> resultadoTabela = new ArrayList<ProdutoModel>();
 		//String resultadoTabela = "";
+		List<ProdutoModel> resultadoTabela = new ArrayList<ProdutoModel>();
 		resultadoTabela = produtoService.consultaProduto();
 		//resultadoTabela = produtoService.consultaProduto();
 		model.addAttribute("consulta", resultadoTabela);
 		
 		//model.addAttribute("produtos", produtoService.consultaProduto());
 	    
-		
 		return "parametros/gerente";
 		
 	}
@@ -136,5 +121,42 @@ public class EstoqueController {
 		return "parametros/gerente"; 
 		
 	}
+	
+	//CLIENTE	
+	@RequestMapping(method = RequestMethod.POST, value = "/clienteExcluir" )
+	public String clienteExcluirProduto(int codigo, String nome, Model model) throws Exception{	
+		
+		ProdutoModel produtoExcluido = new ProdutoModel();
+		
+		produtoExcluido.setCodigo(codigo);
+		produtoExcluido.setNome(nome);
+		
+		try {
+			produtoService.exclusaoProduto(produtoExcluido);
+		}
+		catch(Exception e) {
+			throw new LoginInvalidoException();
+		}
+		return "parametros/cliente";
+		
+	}
+	
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/consultarProdutoCliente" )
+	public String consultarProdutoCliente(Model model) throws Exception{	
+			
+		//ArrayList<ProdutoModel> resultadoTabela = new ArrayList<ProdutoModel>();
+		//String resultadoTabela = "";
+		List<ProdutoModel> resultadoTabela = new ArrayList<ProdutoModel>();
+		resultadoTabela = produtoService.consultaProduto();
+		//resultadoTabela = produtoService.consultaProduto();
+		model.addAttribute("consulta", resultadoTabela);
+		
+		//model.addAttribute("produtos", produtoService.consultaProduto());
+	    
+		return "parametros/cliente";
+		
+	}
+	
 
 }

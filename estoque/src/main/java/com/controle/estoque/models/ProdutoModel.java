@@ -75,4 +75,8 @@ public class ProdutoModel {
 		this.descricao = descricao;
 	}
 
+	@Override
+	public String toString() {
+		return "Codigo: " + this.codigo + ", Nome: " + this.nome + ", Validade: " + this.validade + ", Marca: " + this.marca +  ", Preco: " + this.preco + ", Descricao: " + this.descricao + System.lineSeparator();
+	}
 }
